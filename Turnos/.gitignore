@@ -1,0 +1,57 @@
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# Carpeta de compilación
+bin/
+obj/
+
+# Archivos de usuario
+*.user
+*.suo
+*.cache
+*.log
+*.vspscc
+*.pidb
+*.userprefs
+*.bak
+
+# Carpetas de dependencias (generadas por NuGet, npm, etc.)
+packages/
+node_modules/
+
+# Carpeta de salida de archivos publicados
+publish/
+
+# Archivos de registro y análisis
+*.log
+*.config
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Node.js runtime
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Dependency directories
+jspm_packages/
+
+# Xamarin-specific
+bin/
+obj/
