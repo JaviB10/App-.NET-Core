@@ -21,5 +21,40 @@ namespace Turnos.Controllers
         {
             return View(_context.Especialidad.ToList());
         }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var especialidad = _context.Especialidad.Find(id);
+
+            if (especialidad == null)
+            {
+                return NotFound();
+            }
+
+            return View(especialidad);
+        }
+
+        [HttpPost] //Esto diferencia el metodo Edit que graba, del Edit de vista
+        public IActionResult Edit(int id, [Bind("EspecialidadID,Descripcion")] Especialidad especialidad)
+        {
+            if (id != especialidad.EspecialidadID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Update(especialidad);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(especialidad);
+        }
     }
 }
