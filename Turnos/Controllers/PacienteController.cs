@@ -46,7 +46,7 @@ namespace Turnos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken] //Valida que nuestro metodo create, ha sido ejecutado a traves del formulario y no ha sido ejecutado mediante la URL de la aplicacion
-        public async Task<IActionResult> Create([Bind("PacienteID,Nombre,Apellido,Domicilio,Telefono,Email")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("PacienteID,Nombre,Apellido,Direccion,Telefono,Email")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace Turnos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PacienteID,Nombre,Apellido,Domicilio,Telefono,Email")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("PacienteID,Nombre,Apellido,Direccion,Telefono,Email")] Paciente paciente)
         {
             if (id != paciente.PacienteID)
             {
