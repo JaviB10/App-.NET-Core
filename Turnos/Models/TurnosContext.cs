@@ -12,6 +12,8 @@ namespace Turnos.Models
 
         public DbSet<Especialidad> Especialidad { get; set; }
 
+        public DbSet<Paciente> Paciente { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Especialidad>(entidad =>
@@ -21,6 +23,36 @@ namespace Turnos.Models
                 entidad.Property(e => e.Descripcion)
                 .IsRequired()
                 .HasMaxLength(200)
+                .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Paciente>(entidad => 
+            {
+                entidad.ToTable("Paciente");
+                entidad.HasKey(p => p.PacienteID);
+                entidad.Property(p => p.Nombre)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Apellido)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Direccion)
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(false);
+
+                entidad.Property(p => p.Telefono)
+                .IsRequired()
+                .HasMaxLength(20)
+                .IsUnicode(false);
+                
+                entidad.Property(p => p.Email)
+                .IsRequired()
+                .HasMaxLength(100)
                 .IsUnicode(false);
             });
         }
