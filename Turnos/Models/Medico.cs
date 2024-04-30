@@ -13,5 +13,6 @@ namespace Turnos.Models
         public string Email { get; set; } = "";
         public DateTime HorarioAtencionDesde { get; set; }
         public DateTime HorarioAtencionHasta { get; set; }
+        public List<MedicoEspecialidad> MedicoEspecialidad { get; set; } = new List<MedicoEspecialidad>();
     }
 }

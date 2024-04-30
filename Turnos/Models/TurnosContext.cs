@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Turnos.Models;
 
 namespace Turnos.Models
@@ -16,6 +17,8 @@ namespace Turnos.Models
         public DbSet<Paciente> Paciente { get; set; }
 
         public DbSet<Medico> Medico { get; set; }
+
+        public DbSet<MedicoEspecialidad> MedicoEspecialidad { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -96,6 +99,17 @@ namespace Turnos.Models
                 .IsRequired()
                 .IsUnicode(false);
             });
+
+            //Definir una restriccion entre la tabla medico y la tabla especialidad, creando una relacion de uno a muchos, un medico puede tener muchas especialidades
+            modelBuilder.Entity<MedicoEspecialidad>().HasKey(x => new { x.MedicoID, x.EspecialidadID });
+
+            modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Medico)
+            .WithMany(p => p.MedicoEspecialidad)
+            .HasForeignKey(p => p.MedicoID);
+
+            modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Especialidad)
+            .WithMany(p => p.MedicoEspecialidad)
+            .HasForeignKey(p => p.EspecialidadID);
         }
     }
 }

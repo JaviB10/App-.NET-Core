@@ -46,6 +46,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.HorarioAtencionHasta)
         </dd>
+        <dt class="col-sm-2">Especialidades:</dt>
+        <dd class="col-sm-10">
+           @if (Model.MedicoEspecialidad != null)
+            {
+                foreach (var especialidad in Model.MedicoEspecialidad)
+                {
+                    if (especialidad.Especialidad != null)
+                    {
+                        <div>@especialidad.Especialidad.Descripcion</div>
+                    }
+                }
+            }
+            else
+            {
+                <div>No se han especificado especialidades para este médico.</div>
+            }
+        </dd>
     </dl>
 </div>
 <div>

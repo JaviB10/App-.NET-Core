@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Turnos.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Turnos.Controllers
 {
@@ -32,7 +34,10 @@ namespace Turnos.Controllers
                 return NotFound();
             }
 
-            var medico = await _context.Medico.FirstOrDefaultAsync(m => m.MedicoID == id);
+             var medico = await _context.Medico
+            .Include(m => m.MedicoEspecialidad)
+            .ThenInclude(e => e.Especialidad)
+            .FirstOrDefaultAsync(m => m.MedicoID == id);
             
             if (medico == null)
             {
@@ -45,6 +50,7 @@ namespace Turnos.Controllers
         // GET: Medico/Create
         public IActionResult Create()
         {
+            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad, "EspecialidadID", "Descripcion");
             return View();
         }
 
@@ -53,14 +59,33 @@ namespace Turnos.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MedicoID,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico)
+        public async Task<IActionResult> Create([Bind("MedicoID,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico, int[] EspecialidadID)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(medico);
+                
                 await _context.SaveChangesAsync();
+                
+                if (EspecialidadID != null && EspecialidadID.Any())
+                {
+                    foreach (var especialidadID in EspecialidadID)
+                    {
+                        var medicoEspecialidad = new MedicoEspecialidad();
+                        medicoEspecialidad.MedicoID = medico.MedicoID;
+                        medicoEspecialidad.EspecialidadID = especialidadID;
+
+                        _context.Add(medicoEspecialidad);
+                    }
+                    await _context.SaveChangesAsync();
+                }
+               
+           
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(medico);
         }
 
